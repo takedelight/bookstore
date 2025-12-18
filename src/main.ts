@@ -4,6 +4,8 @@ import { ConfigService } from '@nestjs/config';
 import { ValidationPipe } from '@nestjs/common';
 import { NestExpressApplication } from '@nestjs/platform-express';
 
+import session from 'express-session';
+
 async function bootstrap() {
   const app = await NestFactory.create<NestExpressApplication>(AppModule);
   const configService = app.get(ConfigService);
@@ -15,6 +17,14 @@ async function bootstrap() {
     credentials: true,
     origin: configService.getOrThrow<string>('CORS_ORIGIN'),
   });
+
+  app.use(
+    session({
+      secret: configService.getOrThrow<string>('SESSION_SECRET'),
+      resave: false,
+      saveUninitialized: false,
+    }),
+  );
 
   await app.listen(configService.getOrThrow<number>('PORT'), () =>
     console.log(configService.getOrThrow<number>('PORT')),
