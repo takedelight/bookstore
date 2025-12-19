@@ -1,13 +1,13 @@
-import { Column, Entity, CreateDateColumn, PrimaryColumn } from 'typeorm';
+import { Column, Entity, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
 
 export enum UserRoles {
   USER = 'user',
   ADMIN = 'admin',
 }
 
-@Entity()
+@Entity('users')
 export class User {
-  @PrimaryColumn('uuid')
+  @PrimaryGeneratedColumn('uuid')
   id: string;
 
   @Column({ type: 'varchar', nullable: false })
@@ -22,7 +22,7 @@ export class User {
   @Column({ type: 'varchar', nullable: false })
   password: string;
 
-  @Column({ type: 'varchar', nullable: false })
+  @Column({ type: 'varchar', nullable: true })
   avatar: string | null;
 
   @Column({ type: 'enum', enum: UserRoles, default: UserRoles.USER })

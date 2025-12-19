@@ -20,9 +20,11 @@ async function bootstrap() {
 
   app.use(
     session({
+      name: 'session',
       secret: configService.getOrThrow<string>('SESSION_SECRET'),
+      cookie: { maxAge: 24 * 60 * 60 * 1000, httpOnly: true, secure: false },
       resave: false,
-      saveUninitialized: false,
+      saveUninitialized: true,
     }),
   );
 

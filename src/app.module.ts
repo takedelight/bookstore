@@ -3,6 +3,7 @@ import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { S3Module } from './s3/s3.module';
 import { UserModule } from './user/user.module';
+import { AuthModule } from './auth/auth.module';
 
 @Module({
   imports: [
@@ -21,12 +22,13 @@ import { UserModule } from './user/user.module';
         database: config.getOrThrow('DATABASE_NAME'),
 
         autoLoadEntities: true,
-        synchronize: false,
+        synchronize: true,
       }),
     }),
 
     S3Module,
     UserModule,
+    AuthModule,
   ],
 })
 export class AppModule {}
