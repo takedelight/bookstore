@@ -1,5 +1,5 @@
-import { Column, Entity, CreateDateColumn, PrimaryGeneratedColumn } from 'typeorm';
-
+import { Column, Entity, CreateDateColumn, PrimaryGeneratedColumn, OneToMany } from 'typeorm';
+import { SessionEntity } from '../../shared/session.entity';
 export enum UserRoles {
   USER = 'user',
   ADMIN = 'admin',
@@ -27,6 +27,9 @@ export class User {
 
   @Column({ type: 'enum', enum: UserRoles, default: UserRoles.USER })
   role: UserRoles;
+
+  @OneToMany(() => SessionEntity, (session) => session.user)
+  sessions: SessionEntity[];
 
   @CreateDateColumn()
   createdAt: Date;
